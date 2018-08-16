@@ -41,11 +41,11 @@ public class mesconfigController {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         //从ioc容器中获取dao
         mesconfigDao dao = (mesconfigDao) context.getBean("dao");
-        model.addAttribute("students", dao.queryByKeyword(keyword));
+        model.addAttribute("mesconfigs", dao.queryByKeyword(keyword));
         return "index.jsp";
     }
     /**
-     * 添加新学生，并将结果返回给all页面，由all转发到主页
+     * 添加新信息，并将结果返回给all页面，由all转发到主页
      * @param title
      * @param keyword
      * @param description
