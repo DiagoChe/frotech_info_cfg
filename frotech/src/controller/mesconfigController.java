@@ -36,7 +36,7 @@ public class mesconfigController {
      * @return 返回值类型： String
      */
     @SuppressWarnings("resource")
-	@RequestMapping(value = "/queryByKeyword")
+	@RequestMapping(value = "/queryByKeyword")	
     public String queryByKeyword(String keyword, Model model) {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         //从ioc容器中获取dao

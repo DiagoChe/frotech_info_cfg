@@ -55,6 +55,10 @@
             margin: 30px auto;
         }
         
+        #search_comm{
+        	display: none;
+        }
+        
         #search {
             height: 40px;
             font-size: 16px;
@@ -63,6 +67,7 @@
         }
         
         #edit_comm {
+        	display: none;
             width: 500px;
             margin: 20px auto;
             height: 200px;
@@ -89,8 +94,8 @@
 </head>
 <body> 
 	${msg }
-    <div class="header">
-        <h1>信息配置管理</h1>
+	<div class="header">
+        	<h1>信息配置管理</h1>
     </div>
     <div id="all_comm" class="all">
         <table id="items">
@@ -99,16 +104,16 @@
                 <td>keyword</td>
                 <td>description</td>
             </tr>
-            <c:forEach items="${frotech_config}" var="frotech_config">
+            <c:forEach items="${mesconfigs}" var="mes">
                 <tr>
-                    <td id="title${frotech_config.keyword}">${frotech_config.title}</td>
-                    <td id="keyword${frotech_config.keyword}">${frotech_config.keyword}</td>
-                    <td id="description${frotech_config.keyword}">${frotech_config.description}</td>
+                    <td id="title${mes.keyword}">${mes.title}</td>
+                    <td id="keyword${mes.keyword}">${mes.keyword}</td>
+                    <td id="description${mes.keyword}">${mes.description}</td>
                     <td><a onclick="delete_stu('${mes.keyword}')" href="#">删除</a>|<a onclick="edit_stu('${mes.keyword}')" id="edit0" href="#">编辑</a></td>
                 </tr>
             </c:forEach>
         </table>
-        <a href="all" onclick="refush()">点此刷新</a>
+        <a href="all" onclick="refush()" >点此刷新</a>
         <form action="" class="btn_1">
             <input id="add" class="add" type="button" value="新增" />
             <input id="search_btn" class="search_btn" type="button" value="查找" />
@@ -118,22 +123,25 @@
         <h2>查找关键词</h2>
         <form action="queryByKeyword" method="post" id="search">
             <input type="text" placeholder="检索关键词" name="keyword">
-            <input type="submit" value="查找关键词">
+            <input id="submit" type="submit" value="查找关键词">
             <input type="button" value="取消" id="cancel3" />
         </form>
     </div>
-    <div id="edit_comm">
+    <div id="edit_comm" class="edit_comm">
         <h2 id="edit_title">编辑信息</h2>
         <form action="update" method="post">
-            <input class="text" type="text" placeholder="要修改的title为" id="edit_title" name="title" readonly="readonly" />
+            <input class="text" type="text" placeholder="要修改的title为" id="edit_title" name="title"  />
             <input class="text" type="text" placeholder="要修改的keyword为" id="edit_keyword" name="keyword" />
             <input class="text" type="text" placeholder="description为" id="edit_description" name="description" />
-            <input class="btn" type="submit" value="确定修改" />
-            <input class="btn" type="button" value="取消修改" id="cancel1" class="edit_stu" />
+            <input class="btn" id="submit" type="submit" value="确定修改" />
+            <input class="btn" type="button" value="取消修改" id="cancel1" />
         </form>
     </div>
 </body>
 <script type="text/javascript">
+
+
+
 $(function() {
     $("#cancel1").click(function() {
         $("#all_comm").fadeIn();
@@ -141,8 +149,9 @@ $(function() {
         $("#search_comm").fadeOut();
     })
     $("input").addClass("edit_stu");
+   
     $("#add").click(function() {
-        window.location.href = "login.html";
+        window.location.href = "config.jsp";
     })
     $("#search_btn").click(function() {
         $("#search_comm").fadeIn();
@@ -159,25 +168,39 @@ $(function() {
         $("#edit_comm").fadeIn();
         $("#search_comm").fadeOut();
     })
+   
 })
 
+function refush(){
+     window.location.href="all" ;
+  }
 
-function refush() {
-    window.location.href = "/all";
-}
 
 function delete_stu(keyword) {
     var result = confirm("是否删除？");
     if (result)
-        window.location.href = "deleteByKeyword?id=" + keyword;
+        window.location.href = "deleteByKeyword?keyword=" + keyword;
 
 }
 
-function edit_stu(id) {
+function add_reg() {
+    var title = $("#add_edit_title").val();
+    var keyword = $("#add_edit_keyword").val();
+    var description = $("#add_edit_description").val();
+    var titleNot = title != null && title != '';
+    var keywordNot = keyword != null && keyworde != '';
+    var descriptionNot = description != null && description != '';
 
-    var title = $("#title" + id).text();
-    var keyword = $("#keyword" + id).text();
-    var description = $("#description" + id).text();
+    if (titleNot && keywordNot && descriptionNot)
+        return true;
+    else
+        return false;
+}
+function edit_stu(keyword) {
+
+    var title = $("#title" + keyword).text();
+    var keyword = $("#keyword" + keyword).text();
+    var description = $("#description" + keyword).text();
     $("#edit_title").val(title);
     $("#edit_keyword").val(keyword);
     $("#edit_description").val(description);

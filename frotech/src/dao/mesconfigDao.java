@@ -33,10 +33,10 @@ public class mesconfigDao {
 	    /**
 	     * 查询信息
 	     * 
-	     * @return 返回值类型： List<mesconfig>
+	     * @return 返回值类型： List<frotech_config>
 	     */
 	    public List<mesconfig> queryAll() {
-	    String sql = "select title,keyword,description";
+	    String sql = "select title,keyword,description from frotech_config";
 	    //将查询结果映射到Student类中，添加到list中，并返回
 	    return jdbcTemplate.query(sql, new mesconfigMapper());
 	    }
@@ -47,7 +47,7 @@ public class mesconfigDao {
 	     * @return 返回值类型： List<mesconfig>
 	     */
 	    public List<mesconfig> queryByKeyword(String keyword) {
-	    String sql = "select title,keyword,description from frotech_config where name like '%" + keyword + "%'";
+	    String sql = "select title,keyword,description from frotech_config where keyword like '%" + keyword + "%'";
 	    return jdbcTemplate.query(sql, new mesconfigMapper());
 	    }
 	    /**
@@ -82,7 +82,7 @@ public class mesconfigDao {
 	     * @return 返回值类型： boolean
 	     */
 	    public boolean updateStu(mesconfig mes) {
-	    String sql = "update frotech_config set title=? ,keyword=?,description= ?  where keyword = ?";
+	    String sql = "update frotech_config set title=? ,keyword=?,description= ? ";
 	    Object stuObj[] = new Object[] { mes.getTitle(), mes.getKeyword(), mes.getDescription() };
 	    return jdbcTemplate.update(sql, stuObj) == 1;
 	    }
